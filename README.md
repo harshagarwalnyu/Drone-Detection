@@ -118,5 +118,5 @@ python train_detector.py --data data/drone/data.yaml --epochs 30 --device cuda
 ## Deliverables
 
 - **Hugging Face dataset:** [HarshAgarwalNYU/Assignment3Drone](https://huggingface.co/datasets/HarshAgarwalNYU/Assignment3Drone)
-- **Output video 1 (YouTube):** `PASTE_YOUTUBE_LINK_HERE`
-- **Output video 2 (YouTube):** `PASTE_YOUTUBE_LINK_HERE`
+- **Output video 1 (YouTube):** https://youtu.be/yjuZ6CPiang
+- **Output video 2 (YouTube):** https://youtu.be/XuKAufi5Ngc

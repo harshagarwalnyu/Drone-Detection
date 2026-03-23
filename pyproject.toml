@@ -1,0 +1,19 @@
+[project]
+name = "drone-assignment-3"
+version = "0.1.0"
+description = "Assignment 3 pipeline for drone detection, Kalman tracking, and Parquet export."
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "datasets>=4.8.3",
+    "filterpy>=1.4.5",
+    "huggingface-hub>=1.7.2",
+    "numpy>=1.26.4",
+    "opencv-python-headless>=4.13.0.92",
+    "polars>=1.39.3",
+    "pyarrow>=23.0.1",
+    "pydantic>=2.12.5",
+    "tqdm>=4.67.3",
+    "ultralytics>=8.4.24",
+    "yt-dlp>=2026.3.17",
+]

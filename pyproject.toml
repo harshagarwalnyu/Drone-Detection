@@ -4,6 +4,7 @@ version = "0.1.0"
 description = "Assignment 3 pipeline for drone detection, Kalman tracking, and Parquet export."
 readme = "README.md"
 requires-python = ">=3.12,<3.13"
+license = { text = "MIT" }
 dependencies = [
     "datasets>=4.8.3",
     "filterpy>=1.4.5",
@@ -17,3 +18,20 @@ dependencies = [
     "ultralytics>=8.4.24",
     "yt-dlp>=2026.3.17",
 ]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.14.0",
+    "pytest>=8.4.0",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B"]
+ignore = ["E501"]
+
+[tool.pytest.ini_options]
+cache_dir = "/tmp/pytest_cache"

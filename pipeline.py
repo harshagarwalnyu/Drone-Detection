@@ -11,7 +11,6 @@ import subprocess
 import tempfile
 from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Iterable
 
 import cv2
 from tqdm import tqdm

@@ -45,12 +45,14 @@ def cmd_upload(argv: list[str]) -> int:
         for f in as_completed(futs):
             results[futs[f]] = f.result()
 
-    videos, names, blobs = zip(*results)
+    videos, names, blobs = zip(*results, strict=True)
     img_type = pa.struct([("bytes", pa.binary()), ("path", pa.string())])
     table = pa.table({
         "video": pa.array(videos),
         "frame_name": pa.array(names),
-        "image": pa.array([{"bytes": b, "path": n} for b, n in zip(blobs, names)], type=img_type),
+        "image": pa.array(
+            [{"bytes": b, "path": n} for b, n in zip(blobs, names, strict=True)], type=img_type
+        ),
     })
 
     args.output_parquet.parent.mkdir(parents=True, exist_ok=True)

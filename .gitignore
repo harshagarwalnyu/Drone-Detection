@@ -13,3 +13,8 @@ runs/
 *:Zone.Identifier
 .DS_Store
 uv.lock
+.ruff_cache/
+.pytest_cache/
+*.egg-info/
+dist/
+build/

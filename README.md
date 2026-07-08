@@ -1,8 +1,12 @@
-# Assignment 3: UAV Drone Detection and Tracking
+# Drone Detection and Tracking
+
+[![Python 3.12](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![CI](https://github.com/harshagarwalnyu/Drone-Detection/actions/workflows/ci.yml/badge.svg)](https://github.com/harshagarwalnyu/Drone-Detection/actions/workflows/ci.yml)
+
+A drone detection and tracking pipeline for video: a fine-tuned YOLO detector locates drones frame-by-frame, and a Kalman filter maintains smooth trajectory tracking — including through frames where the detector misses the drone entirely.
 
 ## Overview
-
-A complete multi-object detection and tracking pipeline for drones in video. The system uses a fine-tuned YOLOv8 detector to locate drones frame-by-frame, then a Kalman filter to maintain smooth trajectory tracking — including through frames where the detector misses the drone entirely.
 
 ## Dataset Choice
 
@@ -87,6 +91,41 @@ Each output frame includes:
 - **Very long dropouts** (>50 frames / 5 seconds) — force the tracker to terminate and reinitialize, creating a trajectory segment break
 - **Fast lateral maneuvers** — the constant-velocity model can lag behind sudden direction changes, though the process noise parameter helps compensate
 
+## Architecture
+
+```
+videos/*.mp4 -> ffmpeg frame extraction -> YOLO detector (pipeline.py)
+                                                 |
+                                                 v
+                                    Kalman tracker (tracker.py)
+                                                 |
+                                                 v
+                        overlays + trajectory -> output video / detection frames
+                                                 |
+                                                 v
+                                 main.py upload -> Parquet -> Hugging Face
+```
+
+| File | Role |
+|------|------|
+| `main.py` | CLI entry point (`detect`, `track`, `upload` subcommands) |
+| `pipeline.py` | Frame extraction, YOLO inference, overlay rendering, video composition |
+| `tracker.py` | Kalman-filter-based single-drone tracker (`filterpy`) |
+| `prepare_dataset.py` | Converts a Hugging Face dataset to YOLO training format |
+| `train_detector.py` | Fine-tunes a YOLO checkpoint on the prepared dataset |
+
+## Setup
+
+Requires Python 3.12 and [`uv`](https://docs.astral.sh/uv/), plus `ffmpeg` on `PATH`.
+
+```bash
+git clone https://github.com/harshagarwalnyu/Drone-Detection.git
+cd Drone-Detection
+uv sync
+```
+
+Download or place a YOLO drone-detector checkpoint (e.g. `best.pt`) in the repo root before running `detect`/`track`.
+
 ## Usage
 
 All commands go through `main.py`:
@@ -120,3 +159,7 @@ python train_detector.py --data data/drone/data.yaml --epochs 30 --device cuda
 - **Hugging Face dataset:** [HarshAgarwalNYU/Assignment3Drone](https://huggingface.co/datasets/HarshAgarwalNYU/Assignment3Drone)
 - **Output video 1 (YouTube):** https://youtu.be/yjuZ6CPiang
 - **Output video 2 (YouTube):** https://youtu.be/XuKAufi5Ngc
+
+## License
+
+[MIT](LICENSE) © 2026 Harsh Agarwal

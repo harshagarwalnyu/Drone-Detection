@@ -31,7 +31,8 @@ def write_split(dataset: Dataset, split: str, output: Path, limit: int | None) -
     img_dir, lbl_dir = make_dirs(output, split)
     rows = dataset.select(range(min(limit, len(dataset)))) if limit else dataset
 
-    for count, sample in enumerate(rows, 1):
+    count = 0
+    for count, sample in enumerate(rows, 1):  # noqa: B007 (count used as return value below)
         w, h = int(sample["width"]), int(sample["height"])
         stem = f"{split}_{int(sample['image_id']):06d}"
 
